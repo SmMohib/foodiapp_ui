@@ -5,6 +5,7 @@ A new Flutter project.
 ## Getting Started
 
 This project is a starting point for a Flutter application.
+![](https://github.com/SmMohib/foodiapp_ui/blob/main/img.png)
 
 A few resources to get you started if this is your first Flutter project:
 
