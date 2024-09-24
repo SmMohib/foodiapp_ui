@@ -13,11 +13,12 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Foodi App',
       theme: ThemeData(
-        appBarTheme: AppBarTheme(color: primaryColor),
-        colorScheme: ColorScheme.fromSeed(seedColor: secondaryColor),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 241, 239, 238),
+        appBarTheme: AppBarTheme(backgroundColor: primaryColor),
+       colorScheme: ColorScheme.fromSeed(seedColor: primaryColor),
         useMaterial3: true,
-      ),
-      home: BottomNev(),
+      ),debugShowCheckedModeBanner: false,
+      home: BtmNevBar(),
     );
   }
 }

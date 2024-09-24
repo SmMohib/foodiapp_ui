@@ -1,90 +1,213 @@
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last
+
+import 'package:flutter/material.dart';
+import 'package:foodiapp_ui/component/color.dart';
+import 'package:foodiapp_ui/widget/textWidget.dart';
 
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class Homescreen extends StatefulWidget {
+  const Homescreen({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _HomescreenState createState() => _HomescreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _HomescreenState extends State<Homescreen> {
+  // Keep track of the selected tab index
+  int selectedIndex = 0;int nselectedIndex = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  // Define some example tab names and associated content
+  final List<String> tabNames = [
+    'Pizza',
+    'Burger',
+    'Snacks',
+    'Desserts',
+    'Sushi'
+  ];
+  final List<List<String>> gridItems = [
+    ['Pizza', 'Burger', 'Sushi', 'Pasta'], // Food items
+    ['Coke', 'Juice', 'Water', 'Tea'], // Drink items
+    ['Chips', 'Nuggets', 'Fries'], // Snacks items
+    ['Cake', 'Ice Cream', 'Pie'], // Desserts items
+    ['Sushi', 'Cake', 'Ice Cream', 'Pie'], // Desserts items
+  ];
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Column(
+        children: [
+          const SizedBox(height: 30),
+          // Header with Greeting and Profile Picture
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    text1heebo(
+                      text: 'Hello, Abir',
+                      color: blackColor,
+                      isTile: true,
+                      fontSize: 22,
+                    ),
+                    text1heebo(
+                      text: 'What do you want to eat today?',
+                      color: const Color.fromARGB(125, 0, 0, 0),
+                      isTile: false,
+                      fontSize: 15,
+                    ),
+                  ],
+                ),
+                const CircleAvatar(
+                  radius: 25,
+                  backgroundImage: AssetImage('assets/icon/image 3.png'),
+                )
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          const SizedBox(height: 10),
+
+          // Search Bar and Filter
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 8,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(192, 197, 197, 197),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/icon/search-interface-symbol 1.png',
+                            height: 25,
+                            width: 25,
+                          ),
+                          text1heebo(
+                            text: 'Search For Food',
+                            color: const Color.fromARGB(125, 0, 0, 0),
+                            isTile: false,
+                            fontSize: 15,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: primaryColor,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        topRight: Radius.circular(10),
+                        bottomLeft: Radius.circular(16),
+                        bottomRight: Radius.circular(10),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(11.0),
+                      child: Image.asset(
+                        'assets/icon/settings-sliders.png',
+                        height: 25,
+                        width: 25,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          // horizontal Tab List
+Expanded(
+  flex: 2,
+  child: ListView.builder(
+    scrollDirection: Axis.horizontal,
+    itemCount: tabNames.length,
+    itemBuilder: (context, index) {
+      return Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              selectedIndex = index;  // Update the selected tab
+            });
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: selectedIndex == index
+                  ? primaryColor // Selected tab color
+                  : const Color.fromARGB(255, 230, 221, 216),  // Non-selected tab color
+            ),
+            padding: const EdgeInsets.symmetric(
+                vertical: 10, horizontal: 20),
+            child: Row(
+              children: [
+                CircleAvatar(radius: 20,backgroundColor: secondaryColor, backgroundImage: AssetImage('assets/image 4.png'),
+                  
+                ),
+                const SizedBox(width: 2),
+                text1heebo(
+                  text: tabNames[index],
+                  color: selectedIndex == index
+                      ? whiteColor    // Text color for selected tab
+                      : blackColor,  // Text color for non-selected tab
+                  isTile: true,
+                  fontSize: 16,
+                ),
+              ],
+            ),
+          ),
         ),
+      );
+    },
+  ),
+),
+
+
+          // GridView for Selected Tab
+          Expanded(
+            flex: 15,
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // Number of columns
+                childAspectRatio: 3 / 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+              ),
+              itemCount: gridItems[selectedIndex].length,
+              itemBuilder: (context, index) {
+                return Card(
+                  elevation: 2,
+                  child: Center(
+                    child: text1heebo(
+                      text: gridItems[selectedIndex][index],
+                      color: blackColor,
+                      isTile: true,
+                      fontSize: 18,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
