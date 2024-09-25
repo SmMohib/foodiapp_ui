@@ -15,7 +15,8 @@ class Homescreen extends StatefulWidget {
 
 class _HomescreenState extends State<Homescreen> {
   // Keep track of the selected tab index
-  int selectedIndex = 0;int nselectedIndex = 0;
+  int selectedIndex = 0;
+  int nselectedIndex = 0;
 
   // Define some example tab names and associated content
   final List<String> tabNames = [
@@ -133,52 +134,54 @@ class _HomescreenState extends State<Homescreen> {
             height: 5,
           ),
           // horizontal Tab List
-Expanded(
-  flex: 2,
-  child: ListView.builder(
-    scrollDirection: Axis.horizontal,
-    itemCount: tabNames.length,
-    itemBuilder: (context, index) {
-      return Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: GestureDetector(
-          onTap: () {
-            setState(() {
-              selectedIndex = index;  // Update the selected tab
-            });
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: selectedIndex == index
-                  ? primaryColor // Selected tab color
-                  : const Color.fromARGB(255, 230, 221, 216),  // Non-selected tab color
-            ),
-            padding: const EdgeInsets.symmetric(
-                vertical: 10, horizontal: 20),
-            child: Row(
-              children: [
-                CircleAvatar(radius: 20,backgroundColor: secondaryColor, backgroundImage: AssetImage('assets/image 4.png'),
-                  
-                ),
-                const SizedBox(width: 2),
-                text1heebo(
-                  text: tabNames[index],
-                  color: selectedIndex == index
-                      ? whiteColor    // Text color for selected tab
-                      : blackColor,  // Text color for non-selected tab
-                  isTile: true,
-                  fontSize: 16,
-                ),
-              ],
+          Expanded(
+            flex: 2,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: tabNames.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = index; // Update the selected tab
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: selectedIndex == index
+                            ? primaryColor // Selected tab color
+                            : const Color.fromARGB(
+                                255, 230, 221, 216), // Non-selected tab color
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 20),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 20,
+                            backgroundColor: secondaryColor,
+                            backgroundImage: AssetImage('assets/image 4.png'),
+                          ),
+                          const SizedBox(width: 2),
+                          text1heebo(
+                            text: tabNames[index],
+                            color: selectedIndex == index
+                                ? whiteColor // Text color for selected tab
+                                : blackColor, // Text color for non-selected tab
+                            isTile: true,
+                            fontSize: 16,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
           ),
-        ),
-      );
-    },
-  ),
-),
-
 
           // GridView for Selected Tab
           Expanded(
@@ -186,20 +189,74 @@ Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // Number of columns
-                childAspectRatio: 3 / 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
+                childAspectRatio: 4 / 5,
+                // crossAxisSpacing: 10,
+                //mainAxisSpacing: 10,
               ),
               itemCount: gridItems[selectedIndex].length,
               itemBuilder: (context, index) {
-                return Card(
-                  elevation: 2,
-                  child: Center(
-                    child: text1heebo(
-                      text: gridItems[selectedIndex][index],
-                      color: blackColor,
-                      isTile: true,
-                      fontSize: 18,
+                return Padding(
+                  padding: const EdgeInsets.only(top: 40, left: 8, right: 8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: whiteColor),
+
+                    //  height: 350,width: 200,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                            top: -30,
+                            right: 25,
+                            child: CircleAvatar(
+                              radius: 60,
+                              backgroundImage: AssetImage('assets/image 5.png'),
+                            )),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 100,
+                            ),
+                            text1heebo(
+                              text: gridItems[selectedIndex][index],
+                              color: blackColor,
+                              isTile: true,
+                              fontSize: 20,
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  text1heebo(
+                                    //  text: gridItems[selectedIndex][index],
+                                    text: '\$100',
+                                    color: blackColor,
+                                    isTile: true,
+                                    fontSize: 22,
+                                  ),
+                                  Material(
+                                      child: InkWell(
+                                          onTap: () {},
+                                          child: CircleAvatar(
+                                            radius: 15,
+                                            child: Icon(
+                                              Icons.add,
+                                              size: 20,
+                                            ),
+                                          )))
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 );
