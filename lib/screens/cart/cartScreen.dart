@@ -1,12 +1,9 @@
 // ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:foodiapp_ui/component/color.dart';
+import 'package:foodiapp_ui/model/data.dart';
 import 'package:foodiapp_ui/widget/customAppBar.dart';
 import 'package:foodiapp_ui/widget/textWidget.dart';
-
-
-
 class Cartscreen extends StatefulWidget {
   Cartscreen({super.key});
 
@@ -16,7 +13,7 @@ class Cartscreen extends StatefulWidget {
 
 class _CartscreenState extends State<Cartscreen> {
   int _counter = 1;
-  double basePrice = 37.0;
+  double basePrice = 37;
   int _selectedOption = 0; // Radio button value
 
   void _incrementCounter() {
@@ -38,34 +35,53 @@ class _CartscreenState extends State<Cartscreen> {
     return Scaffold(
       bottomNavigationBar: Container(
           height: 60,
-          color: primaryColor, // Replace with primaryColor if you have it defined
-          child: MaterialButton(
-            clipBehavior: Clip.none,
-            onPressed: () {
-              if (_counter > 0) {
-                showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                    title: const Text("Order Success"),
-                    content: const Text("Your order has been placed!"),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text("OK"),
+         // color: primaryColor, // Replace with primaryColor if you have it defined
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                 textPoppins(
+                        text: 'Total: ${_counter*basePrice}TK',
+                        color: blackColor,
+                        isTile: true,
+                        fontSize: 18,
                       ),
-                    ],
-                  ),
-                );
-              }
-            },
-            child: const Text(
-              'CHECKOUT',
-              style: TextStyle(color: Colors.white, fontSize: 20),
+                
+                MaterialButton(
+                  color: primaryColor,
+                  clipBehavior: Clip.none,
+                  onPressed: () {
+                    if (_counter > 0) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text("Order Success"),
+                          content: const Text("Your order has been placed!"),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text("OK"),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                  child:  textPoppins(
+                        text: 'CHECKOUT',
+                        color: whiteColor,
+                        isTile: true,
+                        fontSize: 18,
+                      ),
+                   
+                ),
+              ],
             ),
           )),
       body: Column(
         children: [
-          const SizedBox(height: 30),
+       
          Customappbar(title: 'Order Detail'),
           Expanded(
               child: ListView.builder(
@@ -99,7 +115,7 @@ class _CartscreenState extends State<Cartscreen> {
                               children: [
                                 Expanded(flex: 3, child: Text('')),
                                 Expanded(
-                                  flex: 6,
+                                  flex: 7,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -115,14 +131,14 @@ class _CartscreenState extends State<Cartscreen> {
                                                   Text(
                                                     'Meat Pizza',
                                                     style: TextStyle(
-                                                        fontSize: 24,
+                                                        fontSize: 18,
                                                         fontWeight:
                                                             FontWeight.bold),
                                                   ),
                                                   Text(
                                                     'Most Popular',
                                                     style: TextStyle(
-                                                        fontSize: 16,
+                                                        fontSize: 14,
                                                         color: Colors.grey),
                                                   )
                                                 ],
@@ -156,9 +172,9 @@ class _CartscreenState extends State<Cartscreen> {
                                                       .spaceBetween,
                                               children: [
                                                 Text(
-                                                  '\$${(_counter * basePrice).toStringAsFixed(2)}',
+                                                  '\TK ${(_counter*basePrice)}',
                                                   style: const TextStyle(
-                                                      fontSize: 20,
+                                                      fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -178,10 +194,10 @@ class _CartscreenState extends State<Cartscreen> {
                                                             },
                                                             child:
                                                                 const CircleAvatar(
-                                                              radius: 20,
+                                                              radius: 15,
                                                               child: Icon(
                                                                 Icons.add,
-                                                                size: 20,
+                                                                size: 18,
                                                               ),
                                                             )),
                                                       ),
@@ -193,7 +209,7 @@ class _CartscreenState extends State<Cartscreen> {
                                                       child: Text(
                                                         '$_counter',
                                                         style: const TextStyle(
-                                                            fontSize: 20),
+                                                            fontSize: 18),
                                                       ),
                                                     ),
                                                     Padding(
@@ -210,10 +226,10 @@ class _CartscreenState extends State<Cartscreen> {
                                                             },
                                                             child:
                                                                 const CircleAvatar(
-                                                              radius: 20,
+                                                              radius: 15,
                                                               child: Icon(
                                                                 Icons.remove,
-                                                                size: 20,
+                                                                size: 18,
                                                               ),
                                                             )),
                                                       ),
@@ -245,3 +261,89 @@ class _CartscreenState extends State<Cartscreen> {
     );
   }
 }
+// import 'package:flutter/material.dart';
+
+// class CartScreen extends StatefulWidget {
+//   final List<Model> cartItems;
+//   const CartScreen({Key? key, required this.cartItems}) : super(key: key);
+
+//   @override
+//   _CartScreenState createState() => _CartScreenState();
+// }
+
+// class _CartScreenState extends State<CartScreen> {
+//   bool selectAll = false;
+//   Map<Model, bool> selectedItems = {};
+//   List<Model> cartItems = [];
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     // Initialize the selection map
+//     widget.cartItems.forEach((item) {
+//       selectedItems[item] = false;
+//     });
+//   }
+
+//   void toggleSelectAll() {
+//     setState(() {
+//       selectAll = !selectAll;
+//       selectedItems.updateAll((key, value) => selectAll);
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Cart'),
+//         actions: [
+//           IconButton(
+//             icon: const Icon(Icons.select_all),
+//             onPressed: toggleSelectAll,
+//           ),
+//         ],
+//       ),
+//       body: Column(
+//         children: [
+//           ListTile(
+//             leading: Checkbox(
+//               value: selectAll,
+//               onChanged: (value) {
+//                 toggleSelectAll();
+//               },
+//             ),
+//             title: const Text('Select All'),
+//           ),
+//           Expanded(
+//             child: ListView.builder(
+//               itemCount: widget.cartItems.length,
+//               itemBuilder: (context, index) {
+//                 Model product = widget.cartItems[index];
+//                 return ListTile(
+//                   leading: Checkbox(
+//                     value: selectedItems[product],
+//                     onChanged: (value) {
+//                       setState(() {
+//                         selectedItems[product] = value!;
+//                       });
+//                     },
+//                   ),
+//                   title: Text(product.title ?? ''),
+//                   subtitle: Text('Price: ${product.price}'),
+//                   trailing: const Text('Quantity: 1'), // Add quantity control here if needed
+//                 );
+//               },
+//             ),
+//           ),
+//           ElevatedButton(
+//             onPressed: () {
+//               // Handle order logic here based on selected items
+//             },
+//             child: const Text('Order Now'),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

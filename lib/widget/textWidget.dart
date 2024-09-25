@@ -14,13 +14,13 @@ textPoppins(
         fontWeight: isTile ? FontWeight.bold : FontWeight.normal),
   );
 }
-text1heebo(
+text1heebo( 
     {required String text,
     required Color color,
     required bool isTile,
-    required double fontSize}) {
+    required double fontSize}) async {
   return Text( textAlign: TextAlign.justify,
-    text,
+    text!,
     style: GoogleFonts.heebo(
         fontSize: fontSize,
         color: color,

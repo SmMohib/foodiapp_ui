@@ -2,9 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:foodiapp_ui/component/color.dart';
+import 'package:foodiapp_ui/screens/cart/cartScreen.dart';
 import 'package:foodiapp_ui/widget/textWidget.dart';
 
-import 'package:flutter/material.dart';
+
+import '../model/data.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -16,23 +18,12 @@ class Homescreen extends StatefulWidget {
 class _HomescreenState extends State<Homescreen> {
   // Keep track of the selected tab index
   int selectedIndex = 0;
-  int nselectedIndex = 0;
+
+  // List to store cart items
+  List<Model> cartItems = [];
 
   // Define some example tab names and associated content
-  final List<String> tabNames = [
-    'Pizza',
-    'Burger',
-    'Snacks',
-    'Desserts',
-    'Sushi'
-  ];
-  final List<List<String>> gridItems = [
-    ['Pizza', 'Burger', 'Sushi', 'Pasta'], // Food items
-    ['Coke', 'Juice', 'Water', 'Tea'], // Drink items
-    ['Chips', 'Nuggets', 'Fries'], // Snacks items
-    ['Cake', 'Ice Cream', 'Pie'], // Desserts items
-    ['Sushi', 'Cake', 'Ice Cream', 'Pie'], // Desserts items
-  ];
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +40,13 @@ class _HomescreenState extends State<Homescreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    text1heebo(
+                    textPoppins(
                       text: 'Hello, Abir',
                       color: blackColor,
                       isTile: true,
                       fontSize: 22,
                     ),
-                    text1heebo(
+                    textPoppins(
                       text: 'What do you want to eat today?',
                       color: const Color.fromARGB(125, 0, 0, 0),
                       isTile: false,
@@ -93,7 +84,7 @@ class _HomescreenState extends State<Homescreen> {
                             height: 25,
                             width: 25,
                           ),
-                          text1heebo(
+                          textPoppins(
                             text: 'Search For Food',
                             color: const Color.fromARGB(125, 0, 0, 0),
                             isTile: false,
@@ -138,7 +129,7 @@ class _HomescreenState extends State<Homescreen> {
             flex: 2,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: tabNames.length,
+              itemCount: tabNames_list.length,
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(4.0),
@@ -163,11 +154,11 @@ class _HomescreenState extends State<Homescreen> {
                           CircleAvatar(
                             radius: 20,
                             backgroundColor: secondaryColor,
-                            backgroundImage: AssetImage('assets/image 4.png'),
+                            backgroundImage: AssetImage(tabNames_list[index].image.toString()),
                           ),
                           const SizedBox(width: 2),
-                          text1heebo(
-                            text: tabNames[index],
+                          textPoppins(
+                            text: tabNames_list[index].title.toString(),
                             color: selectedIndex == index
                                 ? whiteColor // Text color for selected tab
                                 : blackColor, // Text color for non-selected tab
@@ -189,74 +180,85 @@ class _HomescreenState extends State<Homescreen> {
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2, // Number of columns
-                childAspectRatio: 4 / 5,
+                childAspectRatio: 5 / 6,
                 // crossAxisSpacing: 10,
                 //mainAxisSpacing: 10,
               ),
-              itemCount: gridItems[selectedIndex].length,
+              itemCount: gridItems_list[selectedIndex].length,
               itemBuilder: (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.only(top: 40, left: 8, right: 8),
+                  padding: const EdgeInsets.only(top: 50, left: 8, right: 8),
                   child: Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: whiteColor),
-
+                
                     //  height: 350,width: 200,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Positioned(
-                            top: -30,
-                            right: 25,
-                            child: CircleAvatar(
-                              radius: 60,
-                              backgroundImage: AssetImage('assets/image 5.png'),
-                            )),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: 100,
-                            ),
-                            text1heebo(
-                              text: gridItems[selectedIndex][index],
-                              color: blackColor,
-                              isTile: true,
-                              fontSize: 20,
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  text1heebo(
-                                    //  text: gridItems[selectedIndex][index],
-                                    text: '\$100',
-                                    color: blackColor,
-                                    isTile: true,
-                                    fontSize: 22,
-                                  ),
-                                  Material(
-                                      child: InkWell(
-                                          onTap: () {},
-                                          child: CircleAvatar(
-                                            radius: 15,
-                                            child: Icon(
-                                              Icons.add,
-                                              size: 20,
-                                            ),
-                                          )))
-                                ],
+                    child: InkWell(
+                      onTap: () {
+    setState(() {
+      cartItems.add(gridItems_list[selectedIndex][index]);
+    });
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("${gridItems_list[selectedIndex][index].title} added to cart!"),
+    ));
+  },
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Positioned(
+                              top: -50,
+                              left: 30,
+                             
+                              child: Image.asset(gridItems_list[selectedIndex][index].image.toString(),
+                              height: MediaQuery.of(context).size.height*0.17,
+                              width: MediaQuery.of(context).size.height*0.14, 
+                              )),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 70,
                               ),
-                            )
-                          ],
-                        ),
-                      ],
+                              textPoppins(
+                                text: gridItems_list[selectedIndex][index].title.toString(),
+                                color: blackColor,
+                                isTile: true,
+                                fontSize: 20,
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    textPoppins(
+                                      //  text: gridItems[selectedIndex][index],
+                                      text:  'TK ${gridItems_list[selectedIndex][index].price.toString()}',
+                                      color: blackColor,
+                                      isTile: true,
+                                      fontSize: 17,
+                                    ),
+                                    Material(
+                                        child: InkWell(
+                                            onTap: () {},
+                                            child: CircleAvatar(
+                                              radius: 15,
+                                              child: Icon(
+                                                Icons.add,
+                                                size: 20,
+                                              ),
+                                            )))
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
@@ -268,3 +270,5 @@ class _HomescreenState extends State<Homescreen> {
     );
   }
 }
+
+

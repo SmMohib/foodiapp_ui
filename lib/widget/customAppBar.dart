@@ -15,7 +15,7 @@ class Customappbar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [InkWell(onTap: (){Get.back();}, child: Image.asset('assets/icon/left-arrow 1.png',height: 25,width: 25,)),
-                  text1heebo(text: title, color: blackColor, isTile: true, fontSize: 24)],
+                  textRoboro(text: title, color: blackColor, isTile: true, fontSize: 20)],
                 ),
         ],
       ),
