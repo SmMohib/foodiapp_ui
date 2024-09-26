@@ -3,6 +3,7 @@ import 'package:foodiapp_ui/component/color.dart';
 import 'package:foodiapp_ui/screens/homeScreen.dart';
 import 'package:get/get.dart';
 
+import '../model/data.dart';
 import '../screens/cart/cartScreen.dart';
 
 class BtmNevBar extends StatefulWidget {
@@ -15,7 +16,10 @@ class BtmNevBar extends StatefulWidget {
 class _BtmNevBarState extends State<BtmNevBar> {
 //page Name BtmNebBar
   int _currentIndex = 0;
+  int selectedIndex = 0;
 
+  // List to store cart items
+  List<Model> cartItems =[];
   final List<Widget> _children = [
     Homescreen(),
     Homescreen(),
@@ -39,7 +43,14 @@ class _BtmNevBarState extends State<BtmNevBar> {
         borderRadius: BorderRadius.circular(25),
         child: Material(
             elevation: 0,
-            child: InkWell(onTap: (){Get.to(Cartscreen());},
+            child: InkWell(onTap: (){ Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Cartscreen(
+                                      cartItems: cartItems,
+                                    ),
+                                  ),
+                                );},
               child: CircleAvatar(
                   backgroundColor: primaryColor,
                   radius: 30,

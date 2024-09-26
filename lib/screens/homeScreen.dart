@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:foodiapp_ui/component/color.dart';
 import 'package:foodiapp_ui/screens/cart/cartScreen.dart';
 import 'package:foodiapp_ui/widget/textWidget.dart';
+import 'package:get/get.dart';
 
 
 import '../model/data.dart';
@@ -175,96 +176,103 @@ class _HomescreenState extends State<Homescreen> {
           ),
 
           // GridView for Selected Tab
-          Expanded(
-            flex: 15,
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // Number of columns
-                childAspectRatio: 5 / 6,
-                // crossAxisSpacing: 10,
-                //mainAxisSpacing: 10,
-              ),
-              itemCount: gridItems_list[selectedIndex].length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 50, left: 8, right: 8),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: whiteColor),
-                
-                    //  height: 350,width: 200,
-                    child: InkWell(
-                      onTap: () {
-    setState(() {
-      cartItems.add(gridItems_list[selectedIndex][index]);
-    });
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("${gridItems_list[selectedIndex][index].title} added to cart!"),
-    ));
-  },
-                      child: Stack(
-                        clipBehavior: Clip.none,
+         Expanded(
+  flex: 15,
+  child: GridView.builder(
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2, // Number of columns
+      childAspectRatio: 5 / 6,
+    ),
+    itemCount: gridItems_list[selectedIndex].length,
+    itemBuilder: (context, index) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 50, left: 8, right: 8),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.white, // Replace `whiteColor` with direct color
+          ),
+          child: InkWell(
+            onTap: () {
+              // Add the item to the cart and show a SnackBar feedback
+              setState(() {
+                cartItems.add(gridItems_list[selectedIndex][index]);
+              });
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "${gridItems_list[selectedIndex][index].title} added to cart!",
+                  ),
+                ),
+              );
+            },
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(
+                  top: -50,
+                  left: 30,
+                  child: Image.asset(
+                    gridItems_list[selectedIndex][index].image.toString(),
+                    height: MediaQuery.of(context).size.height * 0.17,
+                    width: MediaQuery.of(context).size.height * 0.14,
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 70),
+                    textPoppins(
+                      text: gridItems_list[selectedIndex][index].title.toString(),
+                      color: Colors.black, // Replace `blackColor`
+                      isTile: true,
+                      fontSize: 20,
+                    ),
+                    const SizedBox(height: 15),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Positioned(
-                              top: -50,
-                              left: 30,
-                             
-                              child: Image.asset(gridItems_list[selectedIndex][index].image.toString(),
-                              height: MediaQuery.of(context).size.height*0.17,
-                              width: MediaQuery.of(context).size.height*0.14, 
-                              )),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 70,
-                              ),
-                              textPoppins(
-                                text: gridItems_list[selectedIndex][index].title.toString(),
-                                color: blackColor,
-                                isTile: true,
-                                fontSize: 20,
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    textPoppins(
-                                      //  text: gridItems[selectedIndex][index],
-                                      text:  'TK ${gridItems_list[selectedIndex][index].price.toString()}',
-                                      color: blackColor,
-                                      isTile: true,
-                                      fontSize: 17,
+                          textPoppins(
+                            text: 'TK ${gridItems_list[selectedIndex][index].price.toString()}',
+                            color: Colors.black, // Replace `blackColor`
+                            isTile: true,
+                            fontSize: 17,
+                          ),
+                          Material(
+                            child: InkWell(
+                              onTap: () {
+                                // Navigate to the CartScreen with the current cart items
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Cartscreen(
+                                      cartItems: cartItems,
                                     ),
-                                    Material(
-                                        child: InkWell(
-                                            onTap: () {},
-                                            child: CircleAvatar(
-                                              radius: 15,
-                                              child: Icon(
-                                                Icons.add,
-                                                size: 20,
-                                              ),
-                                            )))
-                                  ],
-                                ),
-                              )
-                            ],
+                                  ),
+                                );
+                              },
+                              child: const CircleAvatar(
+                                radius: 15,
+                                child: Icon(Icons.add, size: 20),
+                              ),
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                );
-              },
+                  ],
+                ),
+              ],
             ),
           ),
+        ),
+      );
+    },
+  ),
+)
+
         ],
       ),
     );
